@@ -2,13 +2,13 @@
     <div class="form">
         <div>
             <h1>Encurte a sua URL</h1>
-            <input type="text" v-model="url" placeholder="Digite sua URL">
+            <input type="text" v-model="formurl.url" placeholder="Digite sua URL">
             <button @click="enviar">
                 <span v-if="botao">Enviar</span>
                 <b-spinner v-else label=""></b-spinner>
             </button>
             <a :href="response.url" target="_blank">
-                <h2>{{response.url}}asdsdadas</h2>
+                <h2>{{response.url}}</h2>
             </a>
         </div>
     </div>
@@ -20,17 +20,18 @@
     export default {
         data() {
             return {
-                url: '',
+                formurl: {
+                    url: '',
+                },
                 response: '',
                 botao: true
             }
         },
         methods: {
             enviar() {
-                //setTimeout( () => {
-                    this.botao = false
-                //},2000)
-                axios.post('http://localhost:3000/api/', this.url)
+                this.botao = false
+                // axios.post('https://encurturl.herokuapp.com/api', this.url)
+                axios.post('http://localhost:3000/api', this.formurl)
                 .then( (resp) => {
                     this.response = resp.data
                     this.alertService('Sucesso', 'Sua Url foi gerada', 'success')
